@@ -48,4 +48,9 @@
       foreign key (poster_id) references "user";
     </sql>
   </changeSet>
+  <changeSet id="1.3" author="Mykola Danyliuk">
+    <sql>
+      alter table post add is_approved boolean default false not null;
+    </sql>
+  </changeSet>
 </databaseChangeLog>

@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtUser implements UserDetails {
 
   private static final String ROLE_PREFIX = "ROLE_";
-  public static final String MANAGER_ROLE = "MANAGER";
-  public static final String USER_ROLE = "USER";
 
   private static final long serialVersionUID = 3960019229972162399L;
   private final String username;

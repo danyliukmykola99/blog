@@ -8,11 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author Mykola Danyliuk
@@ -33,10 +35,16 @@ public class Post extends AbstractAuditingEntity{
   @EqualsAndHashCode.Include
   private Integer id;
 
+  @NotBlank
   private String title;
 
+  @NotBlank
   private String body;
 
+  @NotNull
+  private Boolean approved;
+
+  @NotNull
   private User poster;
 
   public PostResponseDTO toResponseDTO(){
