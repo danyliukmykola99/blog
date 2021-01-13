@@ -1,0 +1,120 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'eclipse'
+    id 'application'
+    id 'war'
+    id 'checkstyle'
+}
+
+ext {
+    problemSpringWebVersion = "0.25.2"
+    springSecurityLdapVersion = "5.2.1.RELEASE"
+    springSecurityKerberosWebVersion = "1.0.1.RELEASE"
+    springSecurityKerberosClientVersion = "1.0.1.RELEASE"
+    commonsLang3Verson = "3.9"
+    jcraftJschVersion = "0.1.54"
+    commonsIoVersion = "2.6"
+    jsonwebtokenJjwtVersion = "0.9.0"
+    postgresqlVersion = "42.2.9"
+    greenMailVersion = "1.5.0"
+    javaMailVersion = "5.3.0"
+    springdocVersion = "1.2.32"
+    springFoxVersion = "2.9.2"
+    freemarkerVersion = "2.1.0.RELEASE"
+    apachedsVersion = "1.5.5"
+    apachePoi = "4.1.2"
+    jUnitVersion = "5.3.1"
+}
+
+group 'danyliuk.mykola'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+bootWar {
+}
+
+bootJar {
+    mainClassName = 'danyliuk.mykola.Application'
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    checkstyleConfig
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-cache"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.data:spring-data-rest-webmvc"
+    implementation "org.springframework.security:spring-security-web"
+
+    implementation "org.apache.poi:poi:${apachePoi}"
+    implementation "org.apache.poi:poi-ooxml:${apachePoi}"
+    implementation "org.apache.commons:commons-lang3:${commonsLang3Verson}"
+    implementation "com.jcraft:jsch:${jcraftJschVersion}"
+    implementation "commons-io:commons-io:${commonsIoVersion}"
+    implementation "io.jsonwebtoken:jjwt:${jsonwebtokenJjwtVersion}"
+
+    implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+
+    implementation "org.liquibase:liquibase-core"
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+
+    compile "org.springframework.boot:spring-boot-starter-freemarker:${freemarkerVersion}"
+
+    compileOnly "org.apache.directory.server:apacheds-server-jndi:${apachedsVersion}"
+    compileOnly "org.projectlombok:lombok"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor "org.projectlombok:lombok"
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
+    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
+
+    checkstyleConfig("com.puppycrawl.tools:checkstyle:8.29") { transitive = false }
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation "com.icegreen:greenmail:${greenMailVersion}"
+    testImplementation "org.simplejavamail:simple-java-mail:${javaMailVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
+    testImplementation 'com.h2database:h2:1.4.200'
+    testCompile "org.testcontainers:junit-jupiter:1.13.0"
+    testCompile "org.testcontainers:postgresql:1.13.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}"
+    implementation 'com.github.java-json-tools:json-patch:1.13'
+    compileOnly 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen')
+    compile group: 'org.marc4j', name: 'marc4j', version: '2.9.1'
+    compile group: 'org.apache.poi', name: 'poi', version: '4.1.2'
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion '8.29'
+    config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+}

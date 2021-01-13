@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  # for tomcat deployment we need unique domain for each app
+  main:
+    allow-bean-definition-overriding: true
+    lazy-initialization: true
+
+server:
+  port: 8082
+  forward-headers-strategy: native
+  tomcat:
+    remote_ip_header: x-forwarded-for
+    protocol-header: x-forwarded-proto

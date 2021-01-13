@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet id="1.1" author="Mykola Danyliuk">
+    <sql>
+      create table post
+      (
+      id serial not null,
+      title text not null,
+      body text not null,
+      created_date timestamp with time zone,
+      last_modified_date timestamp with time zone,
+      poster_id int not null
+      );
+
+      create unique index post_id_uindex
+      on post (id);
+
+      alter table post
+      add constraint post_pk
+      primary key (id);
+
+      create table "user"
+      (
+      id serial not null,
+      username text not null,
+      password text not null,
+      full_name text not null,
+      role text not null
+      );
+
+      create unique index user_id_uindex
+      on "user" (id);
+
+      alter table "user"
+      add constraint user_pk
+      primary key (id);
+
+    </sql>
+  </changeSet>
+  <changeSet id="1.2" author="Mykola Danyliuk">
+    <sql>
+      alter table post
+      add constraint post_user_id_fk
+      foreign key (poster_id) references "user";
+    </sql>
+  </changeSet>
+</databaseChangeLog>
